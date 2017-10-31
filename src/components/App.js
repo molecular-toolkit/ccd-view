@@ -1,44 +1,40 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Selector from './selector';
+import ComponentView from './view'
 import '../css/App.css';
+import axios from 'axios';
 
 class App extends Component {
     constructor(props){
         super(props);
-        this.state = {value: null}
+        this.state = {value: null, data: null}
     }
 
-    handleChange = (e, k, v) => this.setState({value:v});
+    handleSelection = (e, k, v) => {
+        this.setState({value:v, data:null});
+        axios.get(`data/${v}.json`)
+            .then(this.handleDataLoaded);
+    };
+
+    handleDataLoaded = (response) => {
+
+        this.setState({data:response.data})
+    };
 
     render() {
         return (
             <MuiThemeProvider>
                 <div className="App">
                     <h1 className="App-title">View the CCD</h1>
-                    <Content
+                    <ComponentView
                         value={this.state.value}
-                        onChange={this.handleChange}
+                        data={this.state.data}
+                        onChange={this.handleSelection}
                     />
                 </div>
             </MuiThemeProvider>
         );
     }
-}
-
-class Content extends Component {
-    render() {return(
-        <div className="Content">
-            <p className="App-intro">
-                Select a residue code:
-            </p>
-            <Selector
-                value={this.props.value}
-                onChange={this.props.onChange}/>
-            <span>You selected {this.props.value}</span>
-        </div>)
-    }
-
 }
 
 
