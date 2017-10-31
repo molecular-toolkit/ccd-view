@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
-import Selector from './selector';
 import Readout from './readout';
+import Molecule3d from 'molecule-3d-for-react'
 
 
 class ComponentView extends Component {
-    render() {return(
+    render() {
+        return(
         <div className="Content">
-            <p className="App-intro">
-                Select a residue code:
-            </p>
-            <Selector
-                value={this.props.value}
-                onChange={this.props.onChange}/>
             <Readout
                 value={this.props.value}
                 data={this.props.data}/>
+            {this.props.data &&
+            <Molecule3d modelData={this.props.data} /> }
         </div>)
     }
 }

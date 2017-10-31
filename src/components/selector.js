@@ -1,28 +1,32 @@
 import React, { Component } from 'react';
-import resNames from "../static/names";
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 
-const items = [null];
-for (let item of resNames.names){
-    items.push(<MenuItem value={item}
-                         key={item}
-                         primaryText={item}/>)
-}
 
-
+const nullItems = [(<MenuItem value="Loading ..."
+                              primaryText="Loading"
+                              key="singleton"/>)];
 
 class Selector extends Component {
     render() {
-        return (
-            <DropDownMenu maxHeight={300}
-                          value={this.props.value}
-                          onChange={this.props.onChange}>
-                {items}
-            </DropDownMenu>
-        )
-    }
 
+        if(this.props.items) {
+            return (
+                <DropDownMenu maxHeight={300}
+                              value={this.props.value}
+                              onChange={this.props.onChange}>
+                    {this.props.items}
+                </DropDownMenu>
+            )
+        }else{
+            return (
+                <DropDownMenu maxHeight={300}
+                              value={this.props.value}>
+                    {nullItems}
+                </DropDownMenu>
+            )
+        }
+    }
 }
 
 export default Selector;
